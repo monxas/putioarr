@@ -37,7 +37,9 @@ RUN ln -sf /opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar /usr/local/bin/
 
 # Set environment variables for musl cross-compilation
 ENV PATH="/opt/x86_64-linux-musl-cross/bin:$PATH"
+ENV CC=x86_64-linux-musl-gcc
 ENV CC_x86_64_unknown_linux_musl=x86_64-linux-musl-gcc
+ENV CC_x86_64-unknown-linux-musl=x86_64-linux-musl-gcc
 ENV AR_x86_64_unknown_linux_musl=x86_64-linux-musl-ar
 ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=x86_64-linux-musl-gcc
 
