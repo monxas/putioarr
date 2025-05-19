@@ -33,6 +33,7 @@ RUN TARGETPLATFORM=$TARGETPLATFORM TARGETARCH=$TARGETARCH /usr/local/bin/build.s
 
 RUN wget https://musl.cc/x86_64-linux-musl-cross.tgz && \
     tar -xzf x86_64-linux-musl-cross.tgz -C /opt
+RUN ln -sf /opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar /usr/local/bin/musl-ar
 
 # Set environment variables for musl cross-compilation
 ENV PATH="/opt/x86_64-linux-musl-cross/bin:$PATH"
