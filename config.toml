@@ -1,0 +1,56 @@
+# Required. Username and password that sonarr/radarr use to connect to the proxy
+username = "monxas"
+password = "alfagann"
+
+# Required. Directory where the proxy will download files to. This directory has to be readable by
+# sonarr/radarr in order to import downloads
+download_directory = "/downloads"
+
+# Optional bind address, default "0.0.0.0"
+bind_address = "0.0.0.0"
+
+# Optional TCP port, default 9091
+port = 9091
+
+# Optional log level, default "info"
+loglevel = "info"
+
+# Optional UID, default 1000. Change the owner of the downloaded files to this UID. Requires root.
+uid = 1000
+
+# Optional polling interval in secs, default 10.
+polling_interval = 10
+
+# Optional skip directories when downloding, default ["sample", "extras"]
+skip_directories = ["sample", "extras"]
+
+# Optional number of orchestration workers, default 10. Unless there are many changes coming from
+# put.io, you shouldn't have to touch this number. 10 is already overkill.
+orchestration_workers = 10
+
+# Optional number of download workers, default 4. This controls how many downloads we run in parallel.
+download_workers = 4
+
+# Optional: Maximum number of download retries, default 5
+max_download_retries = 5
+# Optional: Initial backoff in ms for retries, default 1000
+retry_backoff_ms = 1000
+# Optional: Download timeout in seconds, default 600
+download_timeout_secs = 600
+# Optional: Interval in seconds to scan for stuck downloads, default 3600 (1 hour)
+stuck_recovery_interval_secs = 3600
+
+[putio]
+# Required. Putio API key. You can generate one using `putioarr get-token`
+api_key =  "DLMVANDT5D6IQXBRX2PP"
+
+# Both [sonarr] and [radarr] are optional, but you'll need at least one of them
+
+[sonarr]
+url = "http://sonarr:8989"
+api_key = "aadf794702cf4385b4aa3b7466bbb17f"
+
+[radarr]
+url = "http://radarr:7878"
+api_key = "feeb2b0a3f2c4b74ab836ee0b7ccfdd5"
+

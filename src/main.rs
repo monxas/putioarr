@@ -58,6 +58,14 @@ pub struct Config {
     sonarr: Option<ArrConfig>,
     radarr: Option<ArrConfig>,
     whisparr: Option<ArrConfig>,
+    #[serde(default = "default_max_download_retries")]
+    pub max_download_retries: u32,
+    #[serde(default = "default_retry_backoff_ms")]
+    pub retry_backoff_ms: u64,
+    #[serde(default = "default_download_timeout_secs")]
+    pub download_timeout_secs: u64,
+    #[serde(default = "default_stuck_recovery_interval_secs")]
+    pub stuck_recovery_interval_secs: u64,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
@@ -77,6 +85,11 @@ pub struct AppData {
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
+fn default_max_download_retries() -> u32 { 5 }
+fn default_retry_backoff_ms() -> u64 { 1000 }
+fn default_download_timeout_secs() -> u64 { 600 }
+fn default_stuck_recovery_interval_secs() -> u64 { 3600 }
+
 #[actix_web::main]
 async fn main() -> Result<()> {
     let cli = Cli::parse();
@@ -95,6 +108,10 @@ async fn main() -> Result<()> {
                     "skip_directories",
                     vec!["sample", "extras"],
                 ))
+                .join(Serialized::default("max_download_retries", 5u32))
+                .join(Serialized::default("retry_backoff_ms", 1000u64))
+                .join(Serialized::default("download_timeout_secs", 600u64))
+                .join(Serialized::default("stuck_recovery_interval_secs", 3600u64))
                 .merge(Toml::file(&args.config_path))
                 .extract()?;
 

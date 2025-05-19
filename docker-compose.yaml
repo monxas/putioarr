@@ -8,9 +8,15 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
-    volumes:
-      - /media/config/putioarr:/config
-      - /media/downloads:/downloads
-    ports:
-      - 9091:9091
-    restart: unless-stopped
+      - UMASK=002
+      volumes:
+        - /home/monxas/appdata/putioarr:/config
+        - /mnt/nfs_media/downloads:/downloads
+      ports:
+        - "9091:9091"
+      restart: unless-stopped
+      logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "8"
