@@ -32,11 +32,13 @@ RUN touch /usr/src/putioarr/src/main.rs
 RUN TARGETPLATFORM=$TARGETPLATFORM TARGETARCH=$TARGETARCH /usr/local/bin/build.sh -c /usr/bin
 
 RUN wget https://musl.cc/x86_64-linux-musl-cross.tgz && \
-    tar -xzf x86_64-linux-musl-cross.tgz -C /opt && \
-    ln -sf /opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar /usr/local/bin/x86_64-linux-musl-ar && \
-    ln -sf /opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar /usr/local/bin/ar
+    tar -xzf x86_64-linux-musl-cross.tgz -C /opt
 
-ENV AR_x86_64_unknown_linux_musl=/usr/local/bin/x86_64-linux-musl-ar
+# Set environment variables for musl cross-compilation
+ENV PATH="/opt/x86_64-linux-musl-cross/bin:$PATH"
+ENV CC_x86_64_unknown_linux_musl=x86_64-linux-musl-gcc
+ENV AR_x86_64_unknown_linux_musl=x86_64-linux-musl-ar
+ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=x86_64-linux-musl-gcc
 
 ### Runtime
 
