@@ -4,6 +4,7 @@ ARG TARGETARCH
 WORKDIR /usr/src
 
 RUN apt update && apt upgrade -y
+RUN apt-get update && apt-get install -y musl-tools
 
 # Set the right architecture
 COPY docker/build.sh /usr/local/bin
