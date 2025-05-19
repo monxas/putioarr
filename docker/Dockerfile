@@ -16,7 +16,6 @@ RUN cargo build --release --target x86_64-unknown-linux-musl
 FROM ghcr.io/linuxserver/baseimage-alpine:edge
 RUN apk add --no-cache musl gcc gcompat
 COPY --from=builder /usr/src/putioarr/target/x86_64-unknown-linux-musl/release/putioarr /app/putioarr
-COPY root/ /
 EXPOSE 9091
 VOLUME /config
 ENTRYPOINT ["/app/putioarr"]
