@@ -4,7 +4,7 @@ ARG TARGETARCH
 WORKDIR /usr/src
 
 RUN apt update && apt upgrade -y
-RUN apt-get update && apt-get install -y musl-tools
+RUN apt-get update && apt-get install -y musl-tools wget
 
 # Set the right architecture
 COPY docker/build.sh /usr/local/bin
@@ -30,6 +30,10 @@ RUN touch /usr/src/putioarr/src/main.rs
 
 # This is the actual application build.
 RUN TARGETPLATFORM=$TARGETPLATFORM TARGETARCH=$TARGETARCH /usr/local/bin/build.sh -c /usr/bin
+
+RUN wget https://musl.cc/x86_64-linux-musl-cross.tgz && \
+    tar -xzf x86_64-linux-musl-cross.tgz -C /opt && \
+    ln -s /opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar /usr/local/bin/musl-ar
 
 ### Runtime
 
