@@ -20,3 +20,4 @@ COPY root/ /
 EXPOSE 9091
 VOLUME /config
 ENTRYPOINT ["/app/putioarr"]
+CMD ["run"]
