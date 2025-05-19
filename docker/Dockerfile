@@ -33,7 +33,10 @@ RUN TARGETPLATFORM=$TARGETPLATFORM TARGETARCH=$TARGETARCH /usr/local/bin/build.s
 
 RUN wget https://musl.cc/x86_64-linux-musl-cross.tgz && \
     tar -xzf x86_64-linux-musl-cross.tgz -C /opt && \
-    ln -s /opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar /usr/local/bin/musl-ar
+    ln -sf /opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar /usr/local/bin/x86_64-linux-musl-ar && \
+    ln -sf /opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar /usr/local/bin/ar
+
+ENV AR_x86_64_unknown_linux_musl=/usr/local/bin/x86_64-linux-musl-ar
 
 ### Runtime
 
