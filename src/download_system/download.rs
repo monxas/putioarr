@@ -168,10 +168,10 @@ async fn fetch(target: &DownloadTarget, uid: u32, app_data: &Data<AppData>) -> R
                         tmp_path.clone().set_owner(uid)?;
                     }
                     if let Err(e) = fs::rename(&tmp_path, &target.to) {
-                        last_err = Some(anyhow::anyhow!(e));
+                        last_err = Some(anyhow::anyhow!(&e));
                         // Clean up temp file
                         let _ = fs::remove_file(&tmp_path);
-                        return Err(anyhow::anyhow!(e));
+                        return Err(anyhow::anyhow!(&e));
                     }
                     return Ok(());
                 }
