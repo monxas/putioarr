@@ -25,28 +25,20 @@ COPY src ./src
 RUN touch src/main.rs
 RUN cargo build --release --target aarch64-unknown-linux-gnu
 
-# --- Final image ---
-FROM ghcr.io/linuxserver/baseimage-alpine:edge
-ARG TARGETARCH
-
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-
-LABEL maintainer="wouterdebie"
-LABEL org.opencontainers.image.architecture="${TARGETARCH}"
-
+# --- Final image for amd64 ---
+FROM ghcr.io/linuxserver/baseimage-alpine:edge AS final-amd64
 RUN apk add --no-cache musl gcc gcompat
-
-# Only copy the correct binary for the current platform
 COPY --from=builder-amd64 /usr/src/putioarr/target/x86_64-unknown-linux-musl/release/putioarr /app/putioarr
-COPY --from=builder-arm64 /usr/src/putioarr/target/aarch64-unknown-linux-gnu/release/putioarr /app/putioarr
-
-# add local files
 COPY root/ /
-
-# ports and volumes
 EXPOSE 9091
 VOLUME /config
+ENTRYPOINT ["/app/putioarr"]
 
+# --- Final image for arm64 ---
+FROM ghcr.io/linuxserver/baseimage-alpine:edge AS final-arm64
+RUN apk add --no-cache musl gcc gcompat
+COPY --from=builder-arm64 /usr/src/putioarr/target/aarch64-unknown-linux-gnu/release/putioarr /app/putioarr
+COPY root/ /
+EXPOSE 9091
+VOLUME /config
 ENTRYPOINT ["/app/putioarr"]
